@@ -1,0 +1,48 @@
+/.phpunit.cache
+/bootstrap/ssr
+/node_modules
+/public/build
+/public/hot
+/public/storage
+/storage/*.key
+/storage/pail
+/vendor
+.env
+.env.backup
+.env.production
+.env.testing
+.phpactor.json
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+/auth.json
+/.fleet
+/.idea
+/.nova
+/.vscode
+/.zed
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Laravel Logs
+/storage/logs/*
+!/storage/logs/.gitkeep
+
+# Compiled assets
+/public/css
+/public/js
+/public/mix-manifest.json
+
+# PHPStorm project files
+.phpstorm.meta.php
+_ide_helper.php
+_ide_helper_models.php

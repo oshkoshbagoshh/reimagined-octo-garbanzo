@@ -56,15 +56,18 @@ class TrackController extends Controller
             $validated['file_path'] = $filePath;
         }
 
-        if ($request->hasFile('cover_image')) {
-            $imagePath = $request->file('cover_image')->store('covers', 'public');
-            $validated['cover_image'] = $imagePath;
-        }
+        // Cover image will be handled by MediaLibrary after track creation
 
         // Remove the file field as it's not in the database
         unset($validated['file']);
 
-        Track::create($validated);
+        $track = Track::create($validated);
+
+        // Add cover image to media library if provided
+        if ($request->hasFile('cover_image')) {
+            $track->addMediaFromRequest('cover_image')
+                ->toMediaCollection('cover');
+        }
 
         return redirect()->route('admin.tracks.index')
             ->with('success', 'Track created successfully.');
@@ -106,19 +109,16 @@ class TrackController extends Controller
             if ($track->file_path && Storage::disk('public')->exists($track->file_path)) {
                 Storage::disk('public')->delete($track->file_path);
             }
-            
+
             $filePath = $request->file('file')->store('tracks', 'public');
             $validated['file_path'] = $filePath;
         }
 
+        // Handle cover image with MediaLibrary
         if ($request->hasFile('cover_image')) {
-            // Delete old image if it exists
-            if ($track->cover_image && Storage::disk('public')->exists($track->cover_image)) {
-                Storage::disk('public')->delete($track->cover_image);
-            }
-            
-            $imagePath = $request->file('cover_image')->store('covers', 'public');
-            $validated['cover_image'] = $imagePath;
+            // MediaLibrary will automatically remove old media when adding new one
+            $track->addMediaFromRequest('cover_image')
+                ->toMediaCollection('cover');
         }
 
         // Remove the file field as it's not in the database
@@ -139,11 +139,9 @@ class TrackController extends Controller
         if ($track->file_path && Storage::disk('public')->exists($track->file_path)) {
             Storage::disk('public')->delete($track->file_path);
         }
-        
-        if ($track->cover_image && Storage::disk('public')->exists($track->cover_image)) {
-            Storage::disk('public')->delete($track->cover_image);
-        }
-        
+
+        // MediaLibrary will automatically delete associated media
+
         if ($track->waveform_path && Storage::disk('public')->exists($track->waveform_path)) {
             Storage::disk('public')->delete($track->waveform_path);
         }

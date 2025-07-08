@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Admin User',
             'email' => 'admin@example.com',
+            'password' => 'admin'
         ]);
 
         // Create artists with tracks
@@ -33,61 +34,62 @@ class DatabaseSeeder extends Seeder
                 'artist_id' => $artist->id,
             ]);
         }
+    }
 
         // Create brands
-        $brands = Brand::factory(5)->create();
+//        $brands = Brand::factory(5)->create();
 
         // Create license requests
-        foreach ($brands as $brand) {
-            $tracks = Track::inRandomOrder()->take(rand(1, 3))->get();
-
-            foreach ($tracks as $track) {
-                LicenseRequest::factory()->create([
-                    'track_id' => $track->id,
-                    'brand_id' => $brand->id,
-                    'user_id' => $brand->user_id,
-                ]);
-            }
-        }
+//        foreach ($brands as $brand) {
+//            $tracks = Track::inRandomOrder()->take(rand(1, 3))->get();
+//
+//            foreach ($tracks as $track) {
+//                LicenseRequest::factory()->create([
+//                    'track_id' => $track->id,
+//                    'brand_id' => $brand->id,
+//                    'user_id' => $brand->user_id,
+//                ]);
+//            }
+//        }
 
         // Create carts with items
-        $users = User::all();
+//        $users = User::all();
 
-        foreach ($users as $user) {
-            $cart = Cart::factory()->create([
-                'user_id' => $user->id,
-            ]);
-
-            $tracks = Track::inRandomOrder()->take(rand(1, 5))->get();
-
-            foreach ($tracks as $track) {
-                CartItem::factory()->create([
-                    'cart_id' => $cart->id,
-                    'track_id' => $track->id,
-                ]);
-            }
-        }
+//        foreach ($users as $user) {
+//            $cart = Cart::factory()->create([
+//                'user_id' => $user->id,
+//            ]);
+//
+//            $tracks = Track::inRandomOrder()->take(rand(1, 5))->get();
+//
+//            foreach ($tracks as $track) {
+//                CartItem::factory()->create([
+//                    'cart_id' => $cart->id,
+//                    'track_id' => $track->id,
+//                ]);
+//            }
+//        }
 
         // Create collaboration messages
-        $licenseRequests = LicenseRequest::all();
-
-        foreach ($licenseRequests as $licenseRequest) {
-            $artistUser = $licenseRequest->track->artist->user;
-            $brandUser = $licenseRequest->brand->user;
-
-            // Messages from brand to artist
-            CollaborationMessage::factory(rand(1, 3))->create([
-                'sender_id' => $brandUser->id,
-                'receiver_id' => $artistUser->id,
-                'license_request_id' => $licenseRequest->id,
-            ]);
-
-            // Messages from artist to brand
-            CollaborationMessage::factory(rand(1, 3))->create([
-                'sender_id' => $artistUser->id,
-                'receiver_id' => $brandUser->id,
-                'license_request_id' => $licenseRequest->id,
-            ]);
-        }
-    }
+//        $licenseRequests = LicenseRequest::all();
+//
+//        foreach ($licenseRequests as $licenseRequest) {
+//            $artistUser = $licenseRequest->track->artist->user;
+//            $brandUser = $licenseRequest->brand->user;
+//
+//            // Messages from brand to artist
+//            CollaborationMessage::factory(rand(1, 3))->create([
+//                'sender_id' => $brandUser->id,
+//                'receiver_id' => $artistUser->id,
+//                'license_request_id' => $licenseRequest->id,
+//            ]);
+//
+//            // Messages from artist to brand
+//            CollaborationMessage::factory(rand(1, 3))->create([
+//                'sender_id' => $artistUser->id,
+//                'receiver_id' => $brandUser->id,
+//                'license_request_id' => $licenseRequest->id,
+//            ]);
+//        }
+//    }
 }

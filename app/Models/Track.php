@@ -6,10 +6,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use App\Services\PexelsService;
 
-class Track extends Model
+class Track extends Model implements HasMedia
 {
     use HasFactory;
+    use InteractsWithMedia;
 
     /**
      * The attributes that are mass assignable.
@@ -22,7 +27,6 @@ class Track extends Model
         'duration',
         'file_path',
         'waveform_path',
-        'cover_image',
         'bpm',
         'key',
         'genres',
@@ -47,6 +51,24 @@ class Track extends Model
     ];
 
     /**
+     * Register media collections for the model.
+     */
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('cover')
+            ->singleFile()
+            ->registerMediaConversions(function (Media $media) {
+                $this->addMediaConversion('thumb')
+                    ->width(200)
+                    ->height(200);
+
+                $this->addMediaConversion('medium')
+                    ->width(400)
+                    ->height(400);
+            });
+    }
+
+    /**
      * Get the artist that owns the track.
      */
     public function artist(): BelongsTo
@@ -68,5 +90,25 @@ class Track extends Model
     public function cartItems(): HasMany
     {
         return $this->hasMany(CartItem::class);
+    }
+
+    /**
+     * Get the cover image URL with fallback to Pexels.
+     *
+     * @param string $conversion
+     * @return string|null
+     */
+    public function getCoverUrl(string $conversion = ''): ?string
+    {
+        // Check if the track has a cover image
+        if ($this->hasMedia('cover')) {
+            return $conversion ? 
+                $this->getFirstMediaUrl('cover', $conversion) : 
+                $this->getFirstMediaUrl('cover');
+        }
+
+        // Fallback to Pexels
+        $pexelsService = app(PexelsService::class);
+        return $pexelsService->getRandomImageForTrack($this);
     }
 }

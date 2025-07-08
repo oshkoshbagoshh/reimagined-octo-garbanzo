@@ -1,9 +1,9 @@
 <script setup lang="ts">
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/vue3';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -17,8 +17,8 @@ const breadcrumbs: BreadcrumbItem[] = [
     <Head title="Dashboard" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
-        <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4 overflow-x-auto">
-            <h1 class="text-2xl font-bold mb-4">Admin Dashboard</h1>
+        <div class="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
+            <h1 class="mb-4 text-2xl font-bold">Admin Dashboard</h1>
 
             <div class="grid auto-rows-min gap-4 md:grid-cols-3">
                 <Card>
@@ -31,9 +31,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                     </CardContent>
                     <CardFooter>
                         <Link href="/admin/tracks">
-                            <Button>
-                                Manage Tracks
-                            </Button>
+                            <Button> Manage Tracks </Button>
                         </Link>
                     </CardFooter>
                 </Card>
@@ -72,7 +70,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                         <CardDescription>Latest actions and updates</CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <p class="text-center py-8 text-gray-500">No recent activity to display</p>
+                        <p class="py-8 text-center text-gray-500">No recent activity to display</p>
                     </CardContent>
                 </Card>
             </div>

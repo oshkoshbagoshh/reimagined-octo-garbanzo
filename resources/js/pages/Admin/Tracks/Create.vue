@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import AppLayout from '@/layouts/AppLayout.vue';
-import { type BreadcrumbItem } from '@/types';
-import { Head, Link, useForm } from '@inertiajs/vue3';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { ref, onMounted } from 'vue';
+import AppLayout from '@/layouts/AppLayout.vue';
+import { type BreadcrumbItem } from '@/types';
+import { Head, Link, useForm } from '@inertiajs/vue3';
 import axios from 'axios';
+import { onMounted, ref } from 'vue';
 
 // Breadcrumbs
 const breadcrumbs: BreadcrumbItem[] = [
@@ -123,8 +123,8 @@ const toggleSelection = (array: string[], item: string) => {
     <Head title="Create Track" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
-        <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4 overflow-x-auto">
-            <div class="flex justify-between items-center mb-6">
+        <div class="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
+            <div class="mb-6 flex items-center justify-between">
                 <h1 class="text-2xl font-bold">Create New Track</h1>
                 <Link href="/admin/tracks">
                     <Button variant="outline">Back to Tracks</Button>
@@ -138,23 +138,18 @@ const toggleSelection = (array: string[], item: string) => {
                         <CardDescription>Enter the basic details of your track</CardDescription>
                     </CardHeader>
                     <CardContent class="space-y-4">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                             <div class="space-y-2">
                                 <Label for="title">Title</Label>
-                                <Input 
-                                    id="title" 
-                                    v-model="form.title" 
-                                    placeholder="Enter track title" 
-                                    :error="form.errors.title"
-                                />
+                                <Input id="title" v-model="form.title" placeholder="Enter track title" :error="form.errors.title" />
                                 <p v-if="form.errors.title" class="text-sm text-red-500">{{ form.errors.title }}</p>
                             </div>
 
                             <div class="space-y-2">
                                 <Label for="artist">Artist</Label>
-                                <select 
-                                    id="artist" 
-                                    v-model="form.artist_id" 
+                                <select
+                                    id="artist"
+                                    v-model="form.artist_id"
                                     class="w-full rounded-md border border-input bg-background px-3 py-2"
                                     :disabled="loadingArtists"
                                 >
@@ -169,46 +164,26 @@ const toggleSelection = (array: string[], item: string) => {
 
                         <div class="space-y-2">
                             <Label for="description">Description</Label>
-                            <Textarea 
-                                id="description" 
-                                v-model="form.description" 
-                                placeholder="Enter track description"
-                                rows="4"
-                            />
+                            <Textarea id="description" v-model="form.description" placeholder="Enter track description" rows="4" />
                             <p v-if="form.errors.description" class="text-sm text-red-500">{{ form.errors.description }}</p>
                         </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
                             <div class="space-y-2">
                                 <Label for="bpm">BPM</Label>
-                                <Input 
-                                    id="bpm" 
-                                    v-model="form.bpm" 
-                                    type="number" 
-                                    placeholder="Beats per minute"
-                                />
+                                <Input id="bpm" v-model="form.bpm" type="number" placeholder="Beats per minute" />
                                 <p v-if="form.errors.bpm" class="text-sm text-red-500">{{ form.errors.bpm }}</p>
                             </div>
 
                             <div class="space-y-2">
                                 <Label for="key">Musical Key</Label>
-                                <Input 
-                                    id="key" 
-                                    v-model="form.key" 
-                                    placeholder="e.g. C Major, A Minor"
-                                />
+                                <Input id="key" v-model="form.key" placeholder="e.g. C Major, A Minor" />
                                 <p v-if="form.errors.key" class="text-sm text-red-500">{{ form.errors.key }}</p>
                             </div>
 
                             <div class="space-y-2">
                                 <Label for="price">Price ($)</Label>
-                                <Input 
-                                    id="price" 
-                                    v-model="form.price" 
-                                    type="number" 
-                                    step="0.01" 
-                                    placeholder="0.00"
-                                />
+                                <Input id="price" v-model="form.price" type="number" step="0.01" placeholder="0.00" />
                                 <p v-if="form.errors.price" class="text-sm text-red-500">{{ form.errors.price }}</p>
                             </div>
                         </div>
@@ -223,21 +198,16 @@ const toggleSelection = (array: string[], item: string) => {
                     <CardContent class="space-y-6">
                         <div class="space-y-2">
                             <Label for="audio-file">Audio File (MP3, WAV, OGG)</Label>
-                            <Input 
-                                id="audio-file" 
-                                type="file" 
-                                accept=".mp3,.wav,.ogg" 
-                                @change="handleAudioFileChange"
-                            />
+                            <Input id="audio-file" type="file" accept=".mp3,.wav,.ogg" @change="handleAudioFileChange" />
                             <p v-if="form.errors.file" class="text-sm text-red-500">{{ form.errors.file }}</p>
 
                             <div v-if="audioPreview" class="mt-4">
-                                <p class="text-sm mb-2">Preview:</p>
+                                <p class="mb-2 text-sm">Preview:</p>
                                 <audio controls class="w-full">
                                     <source :src="audioPreview" />
                                     Your browser does not support the audio element.
                                 </audio>
-                                <p v-if="form.duration" class="text-sm mt-2">
+                                <p v-if="form.duration" class="mt-2 text-sm">
                                     Duration: {{ Math.floor(form.duration / 60) }}:{{ (form.duration % 60).toString().padStart(2, '0') }}
                                 </p>
                             </div>
@@ -245,16 +215,11 @@ const toggleSelection = (array: string[], item: string) => {
 
                         <div class="space-y-2">
                             <Label for="cover-image">Cover Image</Label>
-                            <Input 
-                                id="cover-image" 
-                                type="file" 
-                                accept="image/*" 
-                                @change="handleImageFileChange"
-                            />
+                            <Input id="cover-image" type="file" accept="image/*" @change="handleImageFileChange" />
                             <p v-if="form.errors.cover_image" class="text-sm text-red-500">{{ form.errors.cover_image }}</p>
 
                             <div v-if="imagePreview" class="mt-4">
-                                <p class="text-sm mb-2">Preview:</p>
+                                <p class="mb-2 text-sm">Preview:</p>
                                 <img :src="imagePreview" alt="Cover preview" class="max-w-xs rounded-md" />
                             </div>
                         </div>
@@ -270,8 +235,8 @@ const toggleSelection = (array: string[], item: string) => {
                         <div class="space-y-2">
                             <Label>Genres</Label>
                             <div class="flex flex-wrap gap-2">
-                                <Button 
-                                    v-for="genre in commonGenres" 
+                                <Button
+                                    v-for="genre in commonGenres"
                                     :key="genre"
                                     type="button"
                                     :variant="form.genres.includes(genre) ? 'default' : 'outline'"
@@ -287,8 +252,8 @@ const toggleSelection = (array: string[], item: string) => {
                         <div class="space-y-2">
                             <Label>Moods</Label>
                             <div class="flex flex-wrap gap-2">
-                                <Button 
-                                    v-for="mood in commonMoods" 
+                                <Button
+                                    v-for="mood in commonMoods"
                                     :key="mood"
                                     type="button"
                                     :variant="form.moods.includes(mood) ? 'default' : 'outline'"
@@ -304,8 +269,8 @@ const toggleSelection = (array: string[], item: string) => {
                         <div class="space-y-2">
                             <Label>Instruments</Label>
                             <div class="flex flex-wrap gap-2">
-                                <Button 
-                                    v-for="instrument in commonInstruments" 
+                                <Button
+                                    v-for="instrument in commonInstruments"
                                     :key="instrument"
                                     type="button"
                                     :variant="form.instruments.includes(instrument) ? 'default' : 'outline'"

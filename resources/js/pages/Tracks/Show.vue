@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { Head, Link } from '@inertiajs/vue3';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import { Head, Link } from '@inertiajs/vue3';
 
 // Define props for the track data passed from the controller
 defineProps<{
@@ -53,26 +53,12 @@ const formatPrice = (price: number): string => {
                     <Link :href="route('home')" class="text-2xl font-bold">TFN Artist</Link>
                 </div>
                 <div class="flex items-center space-x-4">
-                    <Link
-                        v-if="$page.props.auth.user"
-                        :href="route('dashboard')"
-                        class="text-sm text-muted-foreground hover:text-foreground"
-                    >
+                    <Link v-if="$page.props.auth.user" :href="route('dashboard')" class="text-sm text-muted-foreground hover:text-foreground">
                         Dashboard
                     </Link>
                     <template v-else>
-                        <Link
-                            :href="route('login')"
-                            class="text-sm text-muted-foreground hover:text-foreground"
-                        >
-                            Log in
-                        </Link>
-                        <Link
-                            :href="route('register')"
-                            class="text-sm font-medium"
-                        >
-                            Register
-                        </Link>
+                        <Link :href="route('login')" class="text-sm text-muted-foreground hover:text-foreground"> Log in </Link>
+                        <Link :href="route('register')" class="text-sm font-medium"> Register </Link>
                     </template>
                 </div>
             </nav>
@@ -94,9 +80,12 @@ const formatPrice = (price: number): string => {
                 <div class="lg:col-span-2">
                     <div class="mb-6 flex flex-col gap-6 md:flex-row">
                         <div class="relative aspect-square w-full max-w-md overflow-hidden rounded-lg shadow-lg md:w-1/3">
-                            <img 
-                                :src="track.cover_image || 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80'" 
-                                :alt="track.title" 
+                            <img
+                                :src="
+                                    track.cover_image ||
+                                    'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80'
+                                "
+                                :alt="track.title"
                                 class="h-full w-full object-cover"
                             />
                         </div>
@@ -105,14 +94,14 @@ const formatPrice = (price: number): string => {
                                 <h1 class="mb-2 text-3xl font-bold">{{ track.title }}</h1>
                                 <p class="mb-4 text-xl text-muted-foreground">by {{ track.artist.name }}</p>
                                 <p class="mb-6">{{ track.description }}</p>
-                                
+
                                 <div class="mb-4 flex flex-wrap gap-2">
                                     <span v-for="genre in track.genres" :key="genre" class="rounded-full bg-primary/10 px-3 py-1 text-sm">
                                         {{ genre }}
                                     </span>
                                 </div>
                             </div>
-                            
+
                             <div class="grid grid-cols-2 gap-4 sm:grid-cols-3">
                                 <div>
                                     <p class="text-sm text-muted-foreground">Duration</p>
@@ -155,9 +144,7 @@ const formatPrice = (price: number): string => {
                             </div>
                         </CardContent>
                         <CardFooter>
-                            <p class="text-xs text-muted-foreground">
-                                By purchasing, you agree to our terms and conditions.
-                            </p>
+                            <p class="text-xs text-muted-foreground">By purchasing, you agree to our terms and conditions.</p>
                         </CardFooter>
                     </Card>
                 </div>
@@ -168,7 +155,7 @@ const formatPrice = (price: number): string => {
         <section class="container mx-auto px-4 py-8">
             <h2 class="mb-4 text-2xl font-bold">Track Details</h2>
             <Separator class="mb-6" />
-            
+
             <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
                 <div>
                     <h3 class="mb-2 text-lg font-medium">Moods</h3>
@@ -178,7 +165,7 @@ const formatPrice = (price: number): string => {
                         </span>
                     </div>
                 </div>
-                
+
                 <div>
                     <h3 class="mb-2 text-lg font-medium">Instruments</h3>
                     <div class="flex flex-wrap gap-2">
@@ -187,7 +174,7 @@ const formatPrice = (price: number): string => {
                         </span>
                     </div>
                 </div>
-                
+
                 <div>
                     <h3 class="mb-2 text-lg font-medium">Technical Info</h3>
                     <ul class="space-y-2 text-sm">

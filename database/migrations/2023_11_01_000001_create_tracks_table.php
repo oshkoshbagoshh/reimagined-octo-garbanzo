@@ -16,7 +16,8 @@ return new class extends Migration
             $table->string('title');
             $table->text('description')->nullable();
             $table->integer('duration')->nullable(); // in seconds
-            $table->string('file_path');
+//            $table->string('file_path');
+            $table->string('file_path')->nullable(); //
             $table->string('waveform_path')->nullable();
             $table->string('cover_image')->nullable();
             $table->integer('bpm')->nullable(); // beats per minute

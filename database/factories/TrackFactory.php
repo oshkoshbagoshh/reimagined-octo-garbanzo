@@ -21,14 +21,13 @@ class TrackFactory extends Factory
         $moods = ['Happy', 'Sad', 'Energetic', 'Calm', 'Aggressive', 'Romantic', 'Mysterious', 'Epic', 'Playful', 'Melancholic'];
         $instruments = ['Guitar', 'Piano', 'Drums', 'Bass', 'Violin', 'Saxophone', 'Trumpet', 'Synthesizer', 'Vocals', 'Flute'];
         $keys = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
-        
+
         return [
             'title' => fake()->sentence(3),
             'description' => fake()->paragraph(),
             'duration' => fake()->numberBetween(60, 300), // 1-5 minutes in seconds
             'file_path' => 'tracks/' . fake()->uuid() . '.mp3',
             'waveform_path' => 'waveforms/' . fake()->uuid() . '.json',
-            'cover_image' => 'covers/' . fake()->uuid() . '.jpg',
             'bpm' => fake()->numberBetween(60, 180),
             'key' => fake()->randomElement($keys),
             'genres' => fake()->randomElements($genres, fake()->numberBetween(1, 3)),

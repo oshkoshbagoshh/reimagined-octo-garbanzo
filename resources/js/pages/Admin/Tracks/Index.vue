@@ -1,24 +1,5 @@
 <script setup lang="ts">
-import AppLayout from '@/layouts/AppLayout.vue';
-import { type BreadcrumbItem } from '@/types';
-import { Head, Link, router } from '@inertiajs/vue3';
-import { 
-    Table, 
-    TableBody, 
-    TableCaption, 
-    TableCell, 
-    TableHead, 
-    TableHeader, 
-    TableRow 
-} from '@/components/ui/table';
-import { Button } from '@/components/ui/button';
-import { 
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu';
-import { 
+import {
     AlertDialog,
     AlertDialogAction,
     AlertDialogCancel,
@@ -26,8 +7,15 @@ import {
     AlertDialogDescription,
     AlertDialogFooter,
     AlertDialogHeader,
-    AlertDialogTitle
+    AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import TrackCover from '@/components/TrackCover.vue';
+import AppLayout from '@/layouts/AppLayout.vue';
+import { type BreadcrumbItem } from '@/types';
+import { Head, Link, router } from '@inertiajs/vue3';
 import { ref } from 'vue';
 
 // Define props
@@ -107,8 +95,8 @@ const deleteTrack = () => {
     <Head title="Manage Tracks" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
-        <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4 overflow-x-auto">
-            <div class="flex justify-between items-center mb-6">
+        <div class="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
+            <div class="mb-6 flex items-center justify-between">
                 <h1 class="text-2xl font-bold">Manage Tracks</h1>
                 <Link href="/admin/tracks/create">
                     <Button>Add New Track</Button>
@@ -119,6 +107,7 @@ const deleteTrack = () => {
                 <TableCaption>A list of your tracks</TableCaption>
                 <TableHeader>
                     <TableRow>
+                        <TableHead>Cover</TableHead>
                         <TableHead>Title</TableHead>
                         <TableHead>Artist</TableHead>
                         <TableHead>Duration</TableHead>
@@ -129,6 +118,9 @@ const deleteTrack = () => {
                 </TableHeader>
                 <TableBody>
                     <TableRow v-for="track in tracks.data" :key="track.id">
+                        <TableCell>
+                            <TrackCover :track="track" size="sm" />
+                        </TableCell>
                         <TableCell class="font-medium">{{ track.title }}</TableCell>
                         <TableCell>{{ track.artist.name }}</TableCell>
                         <TableCell>{{ formatDuration(track.duration) }}</TableCell>
@@ -137,25 +129,19 @@ const deleteTrack = () => {
                         <TableCell class="text-right">
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
-                                    <Button variant="ghost" size="sm">
-                                        Actions
-                                    </Button>
+                                    <Button variant="ghost" size="sm"> Actions </Button>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent align="end">
                                     <DropdownMenuItem asChild>
-                                        <Link :href="`/admin/tracks/${track.id}/edit`">
-                                            Edit
-                                        </Link>
+                                        <Link :href="`/admin/tracks/${track.id}/edit`"> Edit </Link>
                                     </DropdownMenuItem>
-                                    <DropdownMenuItem @click="trackToDelete = track.id">
-                                        Delete
-                                    </DropdownMenuItem>
+                                    <DropdownMenuItem @click="trackToDelete = track.id"> Delete </DropdownMenuItem>
                                 </DropdownMenuContent>
                             </DropdownMenu>
                         </TableCell>
                     </TableRow>
                     <TableRow v-if="tracks.data.length === 0">
-                        <TableCell colspan="6" class="text-center py-8 text-gray-500">
+                        <TableCell colspan="6" class="py-8 text-center text-gray-500">
                             No tracks found. Click "Add New Track" to create one.
                         </TableCell>
                     </TableRow>
@@ -163,26 +149,14 @@ const deleteTrack = () => {
             </Table>
 
             <!-- Pagination links -->
-            <div class="flex justify-center mt-4">
+            <div class="mt-4 flex justify-center">
                 <div class="flex space-x-2">
                     <template v-for="(link, i) in tracks.links" :key="i">
-                        <Link
-                            v-if="link.url"
-                            :href="link.url"
-                            class="px-4 py-2 border rounded"
-                            :class="{ 'bg-primary text-white': link.active }"
-                        >
-                            {{ link.label === '&laquo; Previous' ? '← Previous' : 
-                               link.label === 'Next &raquo;' ? 'Next →' : 
-                               link.label }}
+                        <Link v-if="link.url" :href="link.url" class="rounded border px-4 py-2" :class="{ 'bg-primary text-white': link.active }">
+                            {{ link.label === '&laquo; Previous' ? '← Previous' : link.label === 'Next &raquo;' ? 'Next →' : link.label }}
                         </Link>
-                        <span
-                            v-else
-                            class="px-4 py-2 border rounded text-gray-400"
-                        >
-                            {{ link.label === '&laquo; Previous' ? '← Previous' : 
-                               link.label === 'Next &raquo;' ? 'Next →' : 
-                               link.label }}
+                        <span v-else class="rounded border px-4 py-2 text-gray-400">
+                            {{ link.label === '&laquo; Previous' ? '← Previous' : link.label === 'Next &raquo;' ? 'Next →' : link.label }}
                         </span>
                     </template>
                 </div>

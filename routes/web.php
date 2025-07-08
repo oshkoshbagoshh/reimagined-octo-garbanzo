@@ -22,6 +22,7 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
 // API routes
 Route::prefix('api')->group(function () {
     Route::get('artists', [App\Http\Controllers\Api\ArtistController::class, 'index']);
+    Route::get('tracks/{track}/cover', [App\Http\Controllers\Api\TrackCoverController::class, 'show']);
 });
 
 require __DIR__.'/settings.php';

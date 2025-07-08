@@ -50,4 +50,12 @@ class Artist extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    /**
+     * Get the shows for the artist.
+     */
+    public function shows(): HasMany
+    {
+        return $this->hasMany(Show::class);
+    }
 }

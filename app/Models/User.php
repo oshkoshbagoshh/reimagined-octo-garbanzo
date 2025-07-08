@@ -24,6 +24,14 @@ class User extends Authenticatable
     ];
 
     /**
+     * Get the artist associated with the user.
+     */
+    public function artist()
+    {
+        return $this->hasOne(Artist::class);
+    }
+
+    /**
      * The attributes that should be hidden for serialization.
      *
      * @var list<string>

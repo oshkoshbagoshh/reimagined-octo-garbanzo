@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { Head, useForm } from '@inertiajs/vue3';
-import AppLayout from '@/layouts/AppLayout.vue';
+import InputError from '@/components/InputError.vue';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Checkbox } from '@/components/ui/checkbox';
-import InputError from '@/components/InputError.vue';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { LoaderCircle, Music, CalendarDays } from 'lucide-vue-next';
+import AppLayout from '@/layouts/AppLayout.vue';
+import { Head, useForm } from '@inertiajs/vue3';
+import { CalendarDays, LoaderCircle, Music } from 'lucide-vue-next';
 
 const props = defineProps<{
     artist: {
@@ -96,8 +96,8 @@ const submit = () => {
 
     <AppLayout>
         <div class="container py-8">
-            <div class="max-w-4xl mx-auto">
-                <h1 class="text-3xl font-bold mb-8">Create Demo Email Campaign</h1>
+            <div class="mx-auto max-w-4xl">
+                <h1 class="mb-8 text-3xl font-bold">Create Demo Email Campaign</h1>
 
                 <form @submit.prevent="submit">
                     <Card class="mb-8">
@@ -108,26 +108,19 @@ const submit = () => {
                         <CardContent class="space-y-6">
                             <div>
                                 <Label>Recipients</Label>
-                                <div v-for="(recipient, index) in form.recipients" :key="index" class="flex items-center gap-2 mt-2">
-                                    <Input 
-                                        type="email" 
-                                        v-model="form.recipients[index]" 
-                                        required 
-                                        placeholder="email@example.com" 
-                                    />
-                                    <Button 
-                                        type="button" 
-                                        variant="outline" 
-                                        size="icon" 
+                                <div v-for="(recipient, index) in form.recipients" :key="index" class="mt-2 flex items-center gap-2">
+                                    <Input type="email" v-model="form.recipients[index]" required placeholder="email@example.com" />
+                                    <Button
+                                        type="button"
+                                        variant="outline"
+                                        size="icon"
                                         @click="removeRecipient(index)"
                                         :disabled="form.recipients.length === 1"
                                     >
                                         &times;
                                     </Button>
                                 </div>
-                                <Button type="button" variant="outline" size="sm" @click="addRecipient" class="mt-2">
-                                    Add Recipient
-                                </Button>
+                                <Button type="button" variant="outline" size="sm" @click="addRecipient" class="mt-2"> Add Recipient </Button>
                                 <InputError :message="form.errors.recipients" />
                             </div>
 
@@ -145,7 +138,7 @@ const submit = () => {
                         </CardContent>
                     </Card>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                    <div class="mb-8 grid grid-cols-1 gap-8 md:grid-cols-2">
                         <!-- Featured Tracks -->
                         <Card>
                             <CardHeader>
@@ -156,26 +149,31 @@ const submit = () => {
                                 <CardDescription>Select tracks to feature in your email</CardDescription>
                             </CardHeader>
                             <CardContent>
-                                <div v-if="tracks.length === 0" class="text-center py-4 text-muted-foreground">
-                                    You don't have any tracks yet.
-                                </div>
+                                <div v-if="tracks.length === 0" class="py-4 text-center text-muted-foreground">You don't have any tracks yet.</div>
                                 <div v-else class="space-y-4">
                                     <div v-for="track in tracks" :key="track.id" class="flex items-center gap-3">
-                                        <Checkbox 
-                                            :id="`track-${track.id}`" 
+                                        <Checkbox
+                                            :id="`track-${track.id}`"
                                             :checked="form.featured_track_ids.includes(track.id)"
                                             @update:checked="toggleTrack(track.id)"
                                         />
-                                        <div class="flex items-center gap-3 flex-grow">
-                                            <div class="w-10 h-10 bg-muted flex-shrink-0">
-                                                <img v-if="track.cover_url" :src="track.cover_url" :alt="track.title" class="w-full h-full object-cover" />
-                                                <div v-else class="w-full h-full flex items-center justify-center">
+                                        <div class="flex flex-grow items-center gap-3">
+                                            <div class="h-10 w-10 flex-shrink-0 bg-muted">
+                                                <img
+                                                    v-if="track.cover_url"
+                                                    :src="track.cover_url"
+                                                    :alt="track.title"
+                                                    class="h-full w-full object-cover"
+                                                />
+                                                <div v-else class="flex h-full w-full items-center justify-center">
                                                     <Music class="h-5 w-5 text-muted-foreground" />
                                                 </div>
                                             </div>
                                             <div>
                                                 <Label :for="`track-${track.id}`" class="font-medium">{{ track.title }}</Label>
-                                                <p v-if="track.duration" class="text-xs text-muted-foreground">{{ formatDuration(track.duration) }}</p>
+                                                <p v-if="track.duration" class="text-xs text-muted-foreground">
+                                                    {{ formatDuration(track.duration) }}
+                                                </p>
                                             </div>
                                         </div>
                                     </div>
@@ -194,13 +192,11 @@ const submit = () => {
                                 <CardDescription>Select shows to feature in your email</CardDescription>
                             </CardHeader>
                             <CardContent>
-                                <div v-if="shows.length === 0" class="text-center py-4 text-muted-foreground">
-                                    You don't have any upcoming shows.
-                                </div>
+                                <div v-if="shows.length === 0" class="py-4 text-center text-muted-foreground">You don't have any upcoming shows.</div>
                                 <div v-else class="space-y-4">
                                     <div v-for="show in shows" :key="show.id" class="flex items-start gap-3">
-                                        <Checkbox 
-                                            :id="`show-${show.id}`" 
+                                        <Checkbox
+                                            :id="`show-${show.id}`"
                                             :checked="form.upcoming_show_ids.includes(show.id)"
                                             @update:checked="toggleShow(show.id)"
                                         />
@@ -217,11 +213,9 @@ const submit = () => {
                     </div>
 
                     <div class="flex justify-end gap-4">
-                        <Button type="button" variant="outline" :href="route('artist.profile')">
-                            Cancel
-                        </Button>
+                        <Button type="button" variant="outline" :href="route('artist.profile')"> Cancel </Button>
                         <Button type="submit" :disabled="form.processing">
-                            <LoaderCircle v-if="form.processing" class="h-4 w-4 animate-spin mr-2" />
+                            <LoaderCircle v-if="form.processing" class="mr-2 h-4 w-4 animate-spin" />
                             Send Campaign
                         </Button>
                     </div>

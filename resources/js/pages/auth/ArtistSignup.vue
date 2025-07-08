@@ -44,16 +44,33 @@ const submit = () => {
                 <!-- User Information -->
                 <div class="space-y-4">
                     <h3 class="text-lg font-medium">Account Information</h3>
-                    
+
                     <div class="grid gap-2">
                         <Label for="name">Name</Label>
-                        <Input id="name" type="text" required autofocus :tabindex="1" autocomplete="name" v-model="form.name" placeholder="Full name" />
+                        <Input
+                            id="name"
+                            type="text"
+                            required
+                            autofocus
+                            :tabindex="1"
+                            autocomplete="name"
+                            v-model="form.name"
+                            placeholder="Full name"
+                        />
                         <InputError :message="form.errors.name" />
                     </div>
 
                     <div class="grid gap-2">
                         <Label for="email">Email address</Label>
-                        <Input id="email" type="email" required :tabindex="2" autocomplete="email" v-model="form.email" placeholder="email@example.com" />
+                        <Input
+                            id="email"
+                            type="email"
+                            required
+                            :tabindex="2"
+                            autocomplete="email"
+                            v-model="form.email"
+                            placeholder="email@example.com"
+                        />
                         <InputError :message="form.errors.email" />
                     </div>
 
@@ -89,7 +106,7 @@ const submit = () => {
                 <!-- Artist Information -->
                 <div class="space-y-4">
                     <h3 class="text-lg font-medium">Artist Information</h3>
-                    
+
                     <div class="grid gap-2">
                         <Label for="artist_name">Artist/Band Name</Label>
                         <Input id="artist_name" type="text" required :tabindex="5" v-model="form.artist_name" placeholder="Artist or Band Name" />
@@ -111,35 +128,71 @@ const submit = () => {
                     <!-- Social Media Links -->
                     <div class="space-y-2">
                         <Label>Social Media Links</Label>
-                        
+
                         <div class="grid gap-2">
                             <Label for="facebook" class="text-sm">Facebook</Label>
-                            <Input id="facebook" type="url" :tabindex="8" v-model="form.social_links.facebook" placeholder="https://facebook.com/yourpage" />
+                            <Input
+                                id="facebook"
+                                type="url"
+                                :tabindex="8"
+                                v-model="form.social_links.facebook"
+                                placeholder="https://facebook.com/yourpage"
+                            />
                         </div>
-                        
+
                         <div class="grid gap-2">
                             <Label for="twitter" class="text-sm">Twitter</Label>
-                            <Input id="twitter" type="url" :tabindex="9" v-model="form.social_links.twitter" placeholder="https://twitter.com/yourhandle" />
+                            <Input
+                                id="twitter"
+                                type="url"
+                                :tabindex="9"
+                                v-model="form.social_links.twitter"
+                                placeholder="https://twitter.com/yourhandle"
+                            />
                         </div>
-                        
+
                         <div class="grid gap-2">
                             <Label for="instagram" class="text-sm">Instagram</Label>
-                            <Input id="instagram" type="url" :tabindex="10" v-model="form.social_links.instagram" placeholder="https://instagram.com/yourhandle" />
+                            <Input
+                                id="instagram"
+                                type="url"
+                                :tabindex="10"
+                                v-model="form.social_links.instagram"
+                                placeholder="https://instagram.com/yourhandle"
+                            />
                         </div>
-                        
+
                         <div class="grid gap-2">
                             <Label for="youtube" class="text-sm">YouTube</Label>
-                            <Input id="youtube" type="url" :tabindex="11" v-model="form.social_links.youtube" placeholder="https://youtube.com/yourchannel" />
+                            <Input
+                                id="youtube"
+                                type="url"
+                                :tabindex="11"
+                                v-model="form.social_links.youtube"
+                                placeholder="https://youtube.com/yourchannel"
+                            />
                         </div>
-                        
+
                         <div class="grid gap-2">
                             <Label for="spotify" class="text-sm">Spotify</Label>
-                            <Input id="spotify" type="url" :tabindex="12" v-model="form.social_links.spotify" placeholder="https://open.spotify.com/artist/yourid" />
+                            <Input
+                                id="spotify"
+                                type="url"
+                                :tabindex="12"
+                                v-model="form.social_links.spotify"
+                                placeholder="https://open.spotify.com/artist/yourid"
+                            />
                         </div>
-                        
+
                         <div class="grid gap-2">
                             <Label for="soundcloud" class="text-sm">SoundCloud</Label>
-                            <Input id="soundcloud" type="url" :tabindex="13" v-model="form.social_links.soundcloud" placeholder="https://soundcloud.com/yourhandle" />
+                            <Input
+                                id="soundcloud"
+                                type="url"
+                                :tabindex="13"
+                                v-model="form.social_links.soundcloud"
+                                placeholder="https://soundcloud.com/yourhandle"
+                            />
                         </div>
                     </div>
                 </div>

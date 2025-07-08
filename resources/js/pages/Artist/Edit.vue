@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { Head, useForm } from '@inertiajs/vue3';
-import AppLayout from '@/layouts/AppLayout.vue';
+import InputError from '@/components/InputError.vue';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import InputError from '@/components/InputError.vue';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import AppLayout from '@/layouts/AppLayout.vue';
+import { Head, useForm } from '@inertiajs/vue3';
 import { LoaderCircle } from 'lucide-vue-next';
 
 const props = defineProps<{
@@ -57,8 +57,8 @@ const handleImageUpload = (event: Event) => {
 
     <AppLayout>
         <div class="container py-8">
-            <div class="max-w-3xl mx-auto">
-                <h1 class="text-3xl font-bold mb-8">Edit Artist Profile</h1>
+            <div class="mx-auto max-w-3xl">
+                <h1 class="mb-8 text-3xl font-bold">Edit Artist Profile</h1>
 
                 <form @submit.prevent="submit">
                     <Card class="mb-8">
@@ -91,8 +91,8 @@ const handleImageUpload = (event: Event) => {
                                 <InputError :message="form.errors.profile_image" />
 
                                 <div v-if="artist.profile_image" class="mt-2">
-                                    <p class="text-sm text-muted-foreground mb-2">Current Image:</p>
-                                    <img :src="artist.profile_image" alt="Current profile image" class="w-32 h-32 object-cover rounded-full" />
+                                    <p class="mb-2 text-sm text-muted-foreground">Current Image:</p>
+                                    <img :src="artist.profile_image" alt="Current profile image" class="h-32 w-32 rounded-full object-cover" />
                                 </div>
                             </div>
                         </CardContent>
@@ -116,7 +116,12 @@ const handleImageUpload = (event: Event) => {
 
                             <div class="grid gap-2">
                                 <Label for="instagram">Instagram</Label>
-                                <Input id="instagram" type="url" v-model="form.social_links.instagram" placeholder="https://instagram.com/yourhandle" />
+                                <Input
+                                    id="instagram"
+                                    type="url"
+                                    v-model="form.social_links.instagram"
+                                    placeholder="https://instagram.com/yourhandle"
+                                />
                             </div>
 
                             <div class="grid gap-2">
@@ -126,22 +131,30 @@ const handleImageUpload = (event: Event) => {
 
                             <div class="grid gap-2">
                                 <Label for="spotify">Spotify</Label>
-                                <Input id="spotify" type="url" v-model="form.social_links.spotify" placeholder="https://open.spotify.com/artist/yourid" />
+                                <Input
+                                    id="spotify"
+                                    type="url"
+                                    v-model="form.social_links.spotify"
+                                    placeholder="https://open.spotify.com/artist/yourid"
+                                />
                             </div>
 
                             <div class="grid gap-2">
                                 <Label for="soundcloud">SoundCloud</Label>
-                                <Input id="soundcloud" type="url" v-model="form.social_links.soundcloud" placeholder="https://soundcloud.com/yourhandle" />
+                                <Input
+                                    id="soundcloud"
+                                    type="url"
+                                    v-model="form.social_links.soundcloud"
+                                    placeholder="https://soundcloud.com/yourhandle"
+                                />
                             </div>
                         </CardContent>
                     </Card>
 
                     <div class="flex justify-end gap-4">
-                        <Button type="button" variant="outline" :href="route('artist.profile')">
-                            Cancel
-                        </Button>
+                        <Button type="button" variant="outline" :href="route('artist.profile')"> Cancel </Button>
                         <Button type="submit" :disabled="form.processing">
-                            <LoaderCircle v-if="form.processing" class="h-4 w-4 animate-spin mr-2" />
+                            <LoaderCircle v-if="form.processing" class="mr-2 h-4 w-4 animate-spin" />
                             Save Changes
                         </Button>
                     </div>

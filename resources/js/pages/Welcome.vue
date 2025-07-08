@@ -57,6 +57,7 @@ const formatPrice = (price: number): string => {
                     <template v-else>
                         <Link :href="route('login')" class="text-sm text-muted-foreground hover:text-foreground"> Log in </Link>
                         <Link :href="route('register')" class="text-sm font-medium"> Register </Link>
+                        <Link :href="route('artist.signup')" class="text-sm font-medium"> ArtistSignup </Link>
                     </template>
                 </div>
             </nav>

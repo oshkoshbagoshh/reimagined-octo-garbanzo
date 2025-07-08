@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
 import TrackCoverPlaceholder from '@/components/TrackCoverPlaceholder.vue';
+import { onMounted, ref } from 'vue';
 
 interface Props {
     track: {
@@ -61,13 +61,7 @@ const handleImageError = () => {
 </script>
 
 <template>
-    <div
-        :class="[
-            'overflow-hidden rounded-lg',
-            sizeClasses[size],
-            className,
-        ]"
-    >
+    <div :class="['overflow-hidden rounded-lg', sizeClasses[size], className]">
         <!-- Loading state -->
         <div v-if="loading" class="flex h-full w-full items-center justify-center bg-gray-100 dark:bg-gray-800">
             <div class="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
@@ -77,12 +71,6 @@ const handleImageError = () => {
         <TrackCoverPlaceholder v-else-if="error || !coverUrl" />
 
         <!-- Cover image -->
-        <img
-            v-else
-            :src="coverUrl"
-            :alt="`Cover for ${track.title}`"
-            class="h-full w-full object-cover"
-            @error="handleImageError"
-        />
+        <img v-else :src="coverUrl" :alt="`Cover for ${track.title}`" class="h-full w-full object-cover" @error="handleImageError" />
     </div>
 </template>

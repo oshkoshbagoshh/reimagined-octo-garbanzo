@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { Head, useForm } from '@inertiajs/vue3';
-import AppLayout from '@/layouts/AppLayout.vue';
+import InputError from '@/components/InputError.vue';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Checkbox } from '@/components/ui/checkbox';
-import InputError from '@/components/InputError.vue';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import AppLayout from '@/layouts/AppLayout.vue';
+import { Head, useForm } from '@inertiajs/vue3';
 import { LoaderCircle } from 'lucide-vue-next';
 
 const form = useForm({
@@ -35,8 +35,8 @@ const submit = () => {
 
     <AppLayout>
         <div class="container py-8">
-            <div class="max-w-3xl mx-auto">
-                <h1 class="text-3xl font-bold mb-8">Add New Show</h1>
+            <div class="mx-auto max-w-3xl">
+                <h1 class="mb-8 text-3xl font-bold">Add New Show</h1>
 
                 <form @submit.prevent="submit">
                     <Card>
@@ -69,7 +69,7 @@ const submit = () => {
                                 <InputError :message="form.errors.venue" />
                             </div>
 
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                                 <div class="grid gap-2">
                                     <Label for="city">City</Label>
                                     <Input id="city" v-model="form.city" required placeholder="e.g. New York" />
@@ -97,12 +97,10 @@ const submit = () => {
                         </CardContent>
                     </Card>
 
-                    <div class="flex justify-end gap-4 mt-6">
-                        <Button type="button" variant="outline" :href="route('artist.profile')">
-                            Cancel
-                        </Button>
+                    <div class="mt-6 flex justify-end gap-4">
+                        <Button type="button" variant="outline" :href="route('artist.profile')"> Cancel </Button>
                         <Button type="submit" :disabled="form.processing">
-                            <LoaderCircle v-if="form.processing" class="h-4 w-4 animate-spin mr-2" />
+                            <LoaderCircle v-if="form.processing" class="mr-2 h-4 w-4 animate-spin" />
                             Add Show
                         </Button>
                     </div>
